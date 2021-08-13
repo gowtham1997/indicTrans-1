@@ -15,10 +15,13 @@ SUBWORD_NMT_DIR='subword-nmt'
 model_dir=$exp_dir/model
 data_bin_dir=$exp_dir/final_bin
 
-### normalization and script conversion
 
+echo "Applying sentence splitting for datasets which have multiline text"
+python scripts/split_or_merge.py --mode 'split' --lang $src_lang --input_file $infname
+
+### normalization and script conversion
 echo "Applying normalization and script conversion"
-input_size=`python scripts/preprocess_translate.py $infname $outfname.norm $src_lang true`
+input_size=`python scripts/preprocess_translate.py $infname.split $outfname.norm $src_lang true`
 echo "Number of sentences in input: $input_size"
 
 ### apply BPE to input file
@@ -54,6 +57,12 @@ fairseq-interactive  $data_bin_dir \
 echo "Extracting translations, script conversion and detokenization"
 # this part reverses the transliteration from devnagiri script to target lang and then detokenizes it.
 python scripts/postprocess_translate.py $tgt_output_fname.log $tgt_output_fname $input_size $tgt_lang true
+
+echo "merging multiline translations"
+python scripts/split_or_merge.py --mode 'merge' --index_file $infname.indexes --input_file $tgt_output_fname
+
+# rename the merged file to the original file name
+mv $tgt_output_fname.merge $tgt_output_fname
 
 # This block is now moved to compute_bleu.sh for release with more documentation.
 # if [ $src_lang == 'en' ]; then

@@ -24,6 +24,8 @@ def split_sentences(paragraph, language):
             return splitter([paragraph])
     elif language in INDIC:
         return sentence_tokenize.sentence_split(paragraph, lang=language)
+    else:
+        raise ValueError(f"Language {language} not supported")
 
 
 def add_token(sent, tag_infos):
