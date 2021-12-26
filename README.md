@@ -16,6 +16,18 @@
 
 ## Updates
 
+18 December 2021
+
+```
+Tutorials updated with latest model links
+```
+
+
+26 November 2021
+```
+ - v0.3 models are now available for download
+```
+
 27 June 2021
 ```
 - Updated links for indic to indic model
@@ -40,16 +52,21 @@
 
 ## Download IndicTrans models:
 
-Indic to English: [V0.2](https://storage.googleapis.com/samanantar-public/V0.2/models/indic-en.zip)
+Indic to English: [v0.3](https://storage.googleapis.com/samanantar-public/V0.3/models/indic-en.zip)
 
-English to Indic: [V0.2](https://storage.googleapis.com/samanantar-public/V0.2/models/en-indic.zip)
+English to Indic: [v0.3](https://storage.googleapis.com/samanantar-public/V0.3/models/en-indic.zip)
 
-Indic to Indic:   [V0.3](https://storage.googleapis.com/samanantar-public/V0.3/models/m2m.zip)
+Indic to Indic:   [v0.3](https://storage.googleapis.com/samanantar-public/V0.3/models/m2m.zip)
+
 
 
 ## Using the model for translating any input
 
-The model is trained on single sentences and hence, users need to split parapgraphs to sentences before running the translation. Here is an example snippet to split paragraphs into sentences for English and Indic languages supported by our model:
+The model is trained on single sentences and hence, users need to split parapgraphs to sentences before running the translation when using our command line interface (The python interface has `translate_paragraph` method to handle multi sentence translations).
+
+Note: IndicTrans is trained with a max sequence length of **200** tokens (subwords). If your sentence is too long (> 200 tokens), the sentence will be truncated to 200 tokens before translation.
+
+Here is an example snippet to split paragraphs into sentences for English and Indic languages supported by our model:
 ```python
 # install these libraries
 # pip install mosestokenizer
@@ -147,7 +164,8 @@ pip install --editable ./
 </details>
 
 ## How to train the indictrans model on your training data?
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/AI4Bharat/indicTrans/blob/main/indicTrans_training.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/AI4Bharat/indicTrans/blob/main/IndicTrans_training.ipynb)
+
 
 Follow the colab notebook to setup the environment, download the dataset and train the indicTrans model
 
