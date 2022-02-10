@@ -1,8 +1,9 @@
 exp_dir=$1
 src_lang=$2
 tgt_lang=$3
-train_data_dir=${4:-"$exp_dir"}
-devtest_data_dir=${5:-"$exp_dir/devtest/all"}
+vocab_type=${4:-"sep"} # sep or joint
+train_data_dir=${5:-"$exp_dir"}
+devtest_data_dir=${6:-"$exp_dir/devtest/all"}
 
 echo "Running experiment ${exp_dir} on ${src_lang} to ${tgt_lang}"
 
@@ -80,12 +81,31 @@ echo `date`
 # bash learn_bpe.sh $exp_dir
 
 # for sep vocab use this
-bash learn_single_bpe.sh $exp_dir
+# bash learn_single_bpe.sh $exp_dir
+# check if vocab type is single
+if [[ "$vocab_type" == "sep" ]]
+then
+    bash learn_single_bpe.sh $exp_dir
+else 
+    bash learn_bpe.sh $exp_dir
+fi
+
 echo `date`
 
+
+
 # echo "Applying bpe"
-# apply the learnt bpe to the data
-bash apply_bpe_traindevtest_notag.sh $exp_dir
+# apply the learnt bpe to the data for joint vocab
+# bash apply_bpe_traindevtest_notag.sh $exp_dir
+# apply the learnt bpe to the data for sep vocab
+# bash apply_single_bpe_traindevtest_notag.sh $exp_dir
+
+if [[ "$vocab_type" == "sep" ]]
+then
+    bash apply_single_bpe_traindevtest_notag.sh $exp_dir
+else 
+    bash apply_bpe_traindevtest_notag.sh $exp_dir
+fi
 
 mkdir -p $exp_dir/final
 
